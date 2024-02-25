@@ -1,5 +1,6 @@
 package org.hyunseokcheong.authservice.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,14 @@ class EmailServiceTest {
 	@Test
 	void sendEmailTest() {
 		emailService.sendEmail();
+	}
+
+	@Test
+	void createCertificationCodeTest() {
+		String certificationCode = emailService.createCertificationCode();
+
+		Assertions.assertNotNull(certificationCode);
+		Assertions.assertEquals(6, certificationCode.length());
+		Assertions.assertTrue(certificationCode.matches("[0-9]+"));
 	}
 }

@@ -29,4 +29,8 @@ public class EmailService {
 		message.setText("인증 코드: " + certificationCode);
 		mailSender.send(message);
 	}
+
+	String createCertificationCode() {
+		return String.valueOf((int)(Math.random() * 900000) + 100000);
+	}
 }
