@@ -9,7 +9,9 @@ import lombok.Getter;
 @Getter
 public enum SuccessCode {
 	// EMAIL
-	SEND_EMAIL(HttpStatus.OK, "이메일 전송에 성공했습니다.");
+	SEND_EMAIL(HttpStatus.OK, "이메일 전송에 성공했습니다."),
+	// ACCOUNT
+	CREATE_ACCOUNT(HttpStatus.CREATED, "계정 생성에 성공했습니다.");
 
 	private HttpStatus httpStatus;
 	private String message;
