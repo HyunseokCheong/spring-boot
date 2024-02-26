@@ -1,8 +1,7 @@
 package org.hyunseokcheong.authservice.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
@@ -39,6 +39,9 @@ public class AccountServiceTest {
 	@MockBean
 	private EmailAuthService emailAuthService;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
 	@Test
 	void joinTest() {
 		String email = "hyunseokcheong@gmail.com";
@@ -50,13 +53,13 @@ public class AccountServiceTest {
 		when(emailAuthRepository.findByEmail(any(String.class)))
 			.thenReturn(Optional.of(new EmailAuth(email, certificationCode)));
 		when(accountRepository.save(any(Account.class)))
-			.thenReturn(new Account(email, password));
+			.thenReturn(new Account(email, passwordEncoder.encode(password)));
 
 		Account joinAccount = accountService.join(new AccountRequest(certificationCode, email, password));
 
 		assertThat(joinAccount).isNotNull();
 		assertThat(joinAccount.getEmail()).isEqualTo(email);
-		assertThat(joinAccount.getPassword()).isEqualTo(password);
+		assertTrue(passwordEncoder.matches(password, joinAccount.getPassword()));
 	}
 
 	@Test

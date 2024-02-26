@@ -7,6 +7,7 @@ import org.hyunseokcheong.authservice.repository.AccountRepository;
 import org.hyunseokcheong.authservice.repository.EmailAuthRedisRepository;
 import org.hyunseokcheong.authservice.util.exception.AuthServiceAppException;
 import org.hyunseokcheong.authservice.util.response.ErrorCode;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ public class AccountService {
 
 	private final AccountRepository accountRepository;
 	private final EmailAuthRedisRepository emailRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	@Transactional
 	public Account join(AccountRequest request) {
@@ -35,8 +37,7 @@ public class AccountService {
 			throw new AuthServiceAppException(ErrorCode.EMAIL_AUTH_NOT_MATCHED);
 		}
 
-		// Todo: encrypt password
-		String inputPassword = request.password();
-		return accountRepository.save(new Account(inputEmail, inputPassword));
+		String encodedPassword = passwordEncoder.encode(request.password());
+		return accountRepository.save(new Account(inputEmail, encodedPassword));
 	}
 }
