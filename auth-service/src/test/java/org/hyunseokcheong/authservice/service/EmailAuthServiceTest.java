@@ -2,10 +2,11 @@ package org.hyunseokcheong.authservice.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.hyunseokcheong.authservice.dto.EmailRequest;
+import org.hyunseokcheong.authservice.dto.EmailAuthRequest;
 import org.hyunseokcheong.authservice.entity.Account;
 import org.hyunseokcheong.authservice.repository.AccountRepository;
 import org.hyunseokcheong.authservice.util.exception.AuthServiceAppException;
+import org.hyunseokcheong.authservice.util.response.ErrorCode;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,10 +16,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class EmailServiceTest {
+class EmailAuthServiceTest {
 
 	@Autowired
-	private EmailService emailService;
+	private EmailAuthService emailAuthService;
 
 	@Autowired
 	private AccountRepository accountRepository;
@@ -26,13 +27,13 @@ class EmailServiceTest {
 	@Test
 	void sendEmailTest() {
 		String toEmail = "hyunseokcheong@gmail.com";
-		EmailRequest request = new EmailRequest(toEmail);
-		emailService.sendEmail(request);
+		EmailAuthRequest request = new EmailAuthRequest(toEmail);
+		emailAuthService.sendEmail(request);
 	}
 
 	@Test
 	void createCertificationCodeTest() {
-		String certificationCode = emailService.createCertificationCode();
+		String certificationCode = emailAuthService.createCertificationCode();
 
 		Assertions.assertNotNull(certificationCode);
 		assertEquals(6, certificationCode.length());
@@ -48,8 +49,8 @@ class EmailServiceTest {
 		String email2 = "hyunseokcheong@gmail.com";
 
 		Exception exception = Assertions.assertThrows(AuthServiceAppException.class, () -> {
-			emailService.sendEmail(new EmailRequest(email2));
+			emailAuthService.sendEmail(new EmailAuthRequest(email2));
 		});
-		assertEquals("이미 가입된 이메일입니다.", exception.getMessage());
+		assertEquals(ErrorCode.DUPLICATED_EMAIL.getMessage(), exception.getMessage());
 	}
 }
