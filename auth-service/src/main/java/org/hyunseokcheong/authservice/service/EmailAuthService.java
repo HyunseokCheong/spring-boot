@@ -1,6 +1,6 @@
 package org.hyunseokcheong.authservice.service;
 
-import org.hyunseokcheong.authservice.dto.EmailRequest;
+import org.hyunseokcheong.authservice.dto.EmailAuthRequest;
 import org.hyunseokcheong.authservice.entity.EmailAuth;
 import org.hyunseokcheong.authservice.repository.AccountRepository;
 import org.hyunseokcheong.authservice.repository.EmailAuthRedisRepository;
@@ -17,16 +17,17 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class EmailService {
+public class EmailAuthService {
 
 	@Value("${spring.mail.username}")
 	private String fromEmail;
 
 	private final JavaMailSender mailSender;
 	private final AccountRepository accountRepository;
-	private final EmailAuthRedisRepository emailRepository;
+	private final EmailAuthRedisRepository emailAuthRepository;
 
-	public void sendEmail(EmailRequest request) {
+	@Transactional
+	public EmailAuth sendEmail(EmailAuthRequest request) {
 		String toEmail = request.toEmail();
 		if (accountRepository.existsByEmail(toEmail)) {
 			throw new AuthServiceAppException(ErrorCode.DUPLICATED_EMAIL);
@@ -40,8 +41,7 @@ public class EmailService {
 		message.setText("인증 코드: " + certificationCode);
 		mailSender.send(message);
 
-		EmailAuth emailAuth = new EmailAuth(toEmail, certificationCode);
-		emailRepository.save(emailAuth);
+		return emailAuthRepository.save(new EmailAuth(toEmail, certificationCode));
 	}
 
 	String createCertificationCode() {
