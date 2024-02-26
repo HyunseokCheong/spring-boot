@@ -1,5 +1,6 @@
 package org.hyunseokcheong.authservice.service;
 
+import org.hyunseokcheong.authservice.dto.EmailRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,9 +19,9 @@ public class EmailService {
 
 	private final JavaMailSender mailSender;
 
-	public void sendEmail() {
-		String toEmail = "hyunseokcheong@gmail.com";
-		String certificationCode = "123456";
+	public void sendEmail(EmailRequest request) {
+		String toEmail = request.toEmail();
+		String certificationCode = createCertificationCode();
 
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom(fromEmail);
