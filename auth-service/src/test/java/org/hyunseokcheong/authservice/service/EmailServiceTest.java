@@ -1,5 +1,6 @@
 package org.hyunseokcheong.authservice.service;
 
+import org.hyunseokcheong.authservice.dto.EmailRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,9 @@ class EmailServiceTest {
 
 	@Test
 	void sendEmailTest() {
-		emailService.sendEmail();
+		String toEmail = "hyunseokcheong@gmail.com";
+		EmailRequest request = new EmailRequest(toEmail);
+		emailService.sendEmail(request);
 	}
 
 	@Test
