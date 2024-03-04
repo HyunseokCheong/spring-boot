@@ -75,7 +75,7 @@ class EmailAuthControllerTest {
 				status().isBadRequest(),
 				jsonPath("$.code").value(ErrorCode.INVALID_INPUT_VALUE.toString()),
 				jsonPath("$.message").value(ErrorCode.INVALID_INPUT_VALUE.getMessage()),
-				jsonPath("$.errors.toEmail").value("이메일 양식이 아닙니다.")
+				jsonPath("$.errors.email").value("이메일 양식이 아닙니다.")
 			)
 			.andDo(print());
 	}
@@ -92,7 +92,7 @@ class EmailAuthControllerTest {
 				status().isBadRequest(),
 				jsonPath("$.code").value(ErrorCode.INVALID_INPUT_VALUE.toString()),
 				jsonPath("$.message").value(ErrorCode.INVALID_INPUT_VALUE.getMessage()),
-				jsonPath("$.errors.toEmail").value("이메일을 입력해주세요.")
+				jsonPath("$.errors.email").value("이메일을 입력해주세요.")
 			)
 			.andDo(print());
 	}

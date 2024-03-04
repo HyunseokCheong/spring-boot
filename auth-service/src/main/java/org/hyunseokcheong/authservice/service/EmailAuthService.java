@@ -28,7 +28,7 @@ public class EmailAuthService {
 
 	@Transactional
 	public EmailAuth sendEmail(EmailAuthRequest request) {
-		String toEmail = request.toEmail();
+		String toEmail = request.email();
 		if (accountRepository.existsByEmail(toEmail)) {
 			throw new AuthServiceAppException(ErrorCode.DUPLICATED_EMAIL);
 		}

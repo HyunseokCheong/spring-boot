@@ -1,9 +1,11 @@
 package org.hyunseokcheong.authservice.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.hyunseokcheong.authservice.dto.EmailAuthRequest;
 import org.hyunseokcheong.authservice.entity.Account;
+import org.hyunseokcheong.authservice.entity.EmailAuth;
 import org.hyunseokcheong.authservice.repository.AccountRepository;
 import org.hyunseokcheong.authservice.util.exception.AuthServiceAppException;
 import org.hyunseokcheong.authservice.util.response.ErrorCode;
@@ -28,7 +30,11 @@ class EmailAuthServiceTest {
 	void sendEmailTest() {
 		String toEmail = "hyunseokcheong@gmail.com";
 		EmailAuthRequest request = new EmailAuthRequest(toEmail);
-		emailAuthService.sendEmail(request);
+		EmailAuth emailAuth = emailAuthService.sendEmail(request);
+
+		assertThat(emailAuth).isNotNull();
+		assertEquals(toEmail, emailAuth.getEmail());
+		assertEquals(6, emailAuth.getCertificationCode().length());
 	}
 
 	@Test
