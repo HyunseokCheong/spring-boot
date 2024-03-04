@@ -27,7 +27,6 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.security:spring-security-crypto'
-
     // db
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -36,6 +35,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     // encoder
     implementation 'org.springframework.security:spring-security-crypto'
+    // jwt
+    implementation group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
 }
 
 tasks.named('test') {
