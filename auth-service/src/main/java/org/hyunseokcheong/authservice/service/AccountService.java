@@ -24,20 +24,20 @@ public class AccountService {
 
 	@Transactional
 	public Account join(AccountRequest request) {
-		String inputEmail = request.email();
-		if (accountRepository.existsByEmail(inputEmail)) {
+		String email = request.email();
+		if (accountRepository.existsByEmail(email)) {
 			throw new AuthServiceAppException(ErrorCode.DUPLICATED_EMAIL);
 		}
 
-		String inputCertificationCode = request.certificationCode();
-		EmailAuth savedEmailAuth = emailRepository.findByEmail(inputEmail)
+		String certificationCode = request.certificationCode();
+		EmailAuth savedEmailAuth = emailRepository.findById(email)
 			.orElseThrow(() -> new AuthServiceAppException(ErrorCode.EMAIL_AUTH_NOT_FOUND));
 		String savedCertificationCode = savedEmailAuth.getCertificationCode();
-		if (!inputCertificationCode.equals(savedCertificationCode)) {
+		if (!certificationCode.equals(savedCertificationCode)) {
 			throw new AuthServiceAppException(ErrorCode.EMAIL_AUTH_NOT_MATCHED);
 		}
 
 		String encodedPassword = passwordEncoder.encode(request.password());
-		return accountRepository.save(new Account(inputEmail, encodedPassword));
+		return accountRepository.save(new Account(email, encodedPassword));
 	}
 }

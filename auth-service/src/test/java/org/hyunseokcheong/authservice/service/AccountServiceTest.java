@@ -50,7 +50,7 @@ public class AccountServiceTest {
 
 		when(emailAuthService.sendEmail(any(EmailAuthRequest.class)))
 			.thenReturn(new EmailAuth(email, certificationCode));
-		when(emailAuthRepository.findByEmail(any(String.class)))
+		when(emailAuthRepository.findById(any(String.class)))
 			.thenReturn(Optional.of(new EmailAuth(email, certificationCode)));
 		when(accountRepository.save(any(Account.class)))
 			.thenReturn(new Account(email, passwordEncoder.encode(password)));
@@ -85,7 +85,7 @@ public class AccountServiceTest {
 		String password = "password";
 		AccountRequest request = new AccountRequest(certificationCode, email, password);
 
-		when(emailAuthRepository.findByEmail(email))
+		when(emailAuthRepository.findById(email))
 			.thenReturn(Optional.empty());
 
 		Exception exception = assertThrows(AuthServiceAppException.class, () -> {
@@ -102,7 +102,7 @@ public class AccountServiceTest {
 		AccountRequest request = new AccountRequest(certificationCode, email, password);
 
 		String saveCertificationCode = "654321";
-		when(emailAuthRepository.findByEmail(email))
+		when(emailAuthRepository.findById(email))
 			.thenReturn(Optional.of(new EmailAuth(email, saveCertificationCode)));
 
 		Exception exception = assertThrows(AuthServiceAppException.class, () -> {
