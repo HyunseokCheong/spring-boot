@@ -38,3 +38,4 @@ out/
 
 ### auth-service ###
 .docker
+application.yml
