@@ -26,4 +26,11 @@ jwt:
   secret: b6167b6debd24fceb2c5555ebd87bac4b269b9379910f7d12fa6043ee6e49082e6d16ba0d2802f5c2f30dd0e7d18364ae819659c7f8727937f08c83c16bce3ab
   access-token-expiration: 30
   refresh-token-expiration: 3
-
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
