@@ -16,13 +16,13 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
 	public GlobalFilter() {
 		super(Config.class);
 	}
-
+	
 	@Override
 	public GatewayFilter apply(Config config) {
 		return ((exchange, chain) -> {
 			ServerHttpRequest request = exchange.getRequest();
 			ServerHttpResponse response = exchange.getResponse();
-
+			
 			log.info("Global Filter baseMessage: {}, {}", config.getBaseMessage(), request.getRemoteAddress());
 			if (config.isPreLogger()) {
 				log.info("Global Filter Start: request id -> {}", request.getId());
@@ -34,7 +34,7 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
 			}));
 		});
 	}
-
+	
 	@Data
 	public static class Config {
 		private String baseMessage;
