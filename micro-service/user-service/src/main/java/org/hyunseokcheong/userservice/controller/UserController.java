@@ -3,10 +3,13 @@ package org.hyunseokcheong.userservice.controller;
 import org.hyunseokcheong.userservice.dto.UserDto;
 import org.hyunseokcheong.userservice.service.UserService;
 import org.hyunseokcheong.userservice.vo.RequestUser;
+import org.hyunseokcheong.userservice.vo.ResponseUser;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
@@ -38,13 +41,15 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public String createUser(@RequestBody RequestUser requestUser) {
+	public ResponseEntity<Object> createUser(@RequestBody RequestUser requestUser) {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		
 		UserDto userDto = modelMapper.map(requestUser, UserDto.class);
-		userService.createUser(userDto);
+		UserDto returnUserDto = userService.createUser(userDto);
 		
-		return "Create User Method is called";
+		ResponseUser responseUser = modelMapper.map(returnUserDto, ResponseUser.class);
+		return ResponseEntity.status(HttpStatus.CREATED)
+			.body(responseUser);
 	}
 }
