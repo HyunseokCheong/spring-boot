@@ -1,5 +1,10 @@
 package org.hyunseokcheong.userservice.controller;
 
+import org.hyunseokcheong.userservice.dto.UserDto;
+import org.hyunseokcheong.userservice.service.UserService;
+import org.hyunseokcheong.userservice.vo.RequestUser;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	
 	private Environment environment;
+	private UserService userService;
 	
 	@Autowired
-	public UserController(Environment environment) {
+	public UserController(Environment environment, UserService userService) {
 		this.environment = environment;
+		this.userService = userService;
 	}
 	
 	@GetMapping("/health_check")
@@ -28,5 +35,16 @@ public class UserController {
 	@GetMapping("/welcome")
 	public String welcome() {
 		return environment.getProperty("greeting.message");
+	}
+	
+	@PostMapping
+	public String createUser(@RequestBody RequestUser requestUser) {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		
+		UserDto userDto = modelMapper.map(requestUser, UserDto.class);
+		userService.createUser(userDto);
+		
+		return "Create User Method is called";
 	}
 }
