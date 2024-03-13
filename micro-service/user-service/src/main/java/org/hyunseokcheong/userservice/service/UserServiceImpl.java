@@ -1,13 +1,15 @@
 package org.hyunseokcheong.userservice.service;
 
-import java.util.UUID;
+import java.util.*;
 
 import org.hyunseokcheong.userservice.dto.UserDto;
 import org.hyunseokcheong.userservice.jpa.UserEntity;
 import org.hyunseokcheong.userservice.jpa.UserRepository;
+import org.hyunseokcheong.userservice.vo.ResponseOrder;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,39 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(userEntity);
 		
 		return modelMapper.map(userEntity, UserDto.class);
+	}
+	
+	@Override
+	public UserDto getUserByUserId(String userId) {
+		UserEntity userEntity = userRepository.findByUserId(userId);
+		
+		if (userEntity == null) {
+			throw new UsernameNotFoundException("User not found");
+		}
+		
+		UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+		
+		List<ResponseOrder> orders = new ArrayList<>();
+		userDto.setOrders(orders);
+		
+		return userDto;
+	}
+	
+	@Override
+	public Iterable<UserDto> getUserByAll() {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration()
+			.setMatchingStrategy(MatchingStrategies.STRICT);
+		
+		Iterable<UserEntity> userEntities = userRepository.findAll();
+		
+		List<UserDto> result = new ArrayList<>();
+		userEntities.forEach(v -> {
+			UserDto userDto = modelMapper.map(v, UserDto.class);
+			userDto.setOrders(new ArrayList<>());
+			result.add(userDto);
+		});
+		
+		return result;
 	}
 }

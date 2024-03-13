@@ -1,5 +1,8 @@
 package org.hyunseokcheong.userservice.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.hyunseokcheong.userservice.dto.UserDto;
 import org.hyunseokcheong.userservice.service.UserService;
 import org.hyunseokcheong.userservice.vo.RequestUser;
@@ -51,5 +54,26 @@ public class UserController {
 		ResponseUser responseUser = modelMapper.map(returnUserDto, ResponseUser.class);
 		return ResponseEntity.status(HttpStatus.CREATED)
 			.body(responseUser);
+	}
+	
+	@GetMapping("/{userId}")
+	public ResponseEntity<Object> getUserByUserId(@PathVariable("userId") String userId) {
+		UserDto userDto = userService.getUserByUserId(userId);
+		
+		ResponseUser responseUser = new ModelMapper().map(userDto, ResponseUser.class);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(responseUser);
+	}
+	
+	@GetMapping
+	public ResponseEntity<Object> getUsers() {
+		Iterable<UserDto> users = userService.getUserByAll();
+		
+		List<ResponseUser> result = new ArrayList<>();
+		users.forEach(v -> result.add(new ModelMapper().map(v, ResponseUser.class)));
+		
+		return ResponseEntity.status(HttpStatus.OK)
+			.body(result);
 	}
 }
