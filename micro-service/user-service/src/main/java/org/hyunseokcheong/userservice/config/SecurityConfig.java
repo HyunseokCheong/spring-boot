@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 	
-	private final String[] WHITE_LIST = {"/api/v1/user/**"};
+	private final String[] WHITE_LIST = {"/actuator/**", "/api/v1/user/**"};
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
