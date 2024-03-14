@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class ResponseOrder {
+public class ResponsePurchase {
 	
 	private String productId;
 	private Integer quantity;
@@ -13,5 +13,5 @@ public class ResponseOrder {
 	private Integer totalPrice;
 	private Date createdAt;
 	
-	private String orderId;
+	private String purchaseId;
 }

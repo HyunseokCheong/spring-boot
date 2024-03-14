@@ -5,7 +5,7 @@ import java.util.*;
 import org.hyunseokcheong.userservice.dto.UserDto;
 import org.hyunseokcheong.userservice.jpa.UserEntity;
 import org.hyunseokcheong.userservice.jpa.UserRepository;
-import org.hyunseokcheong.userservice.vo.ResponseOrder;
+import org.hyunseokcheong.userservice.vo.ResponsePurchase;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +55,8 @@ public class UserServiceImpl implements UserService {
 		
 		UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 		
-		List<ResponseOrder> orders = new ArrayList<>();
-		userDto.setOrders(orders);
+		List<ResponsePurchase> purchases = new ArrayList<>();
+		userDto.setPurchases(purchases);
 		
 		return userDto;
 	}
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		List<UserDto> result = new ArrayList<>();
 		userEntities.forEach(v -> {
 			UserDto userDto = modelMapper.map(v, UserDto.class);
-			userDto.setOrders(new ArrayList<>());
+			userDto.setPurchases(new ArrayList<>());
 			result.add(userDto);
 		});
 		

@@ -34,6 +34,12 @@ spring:
             - Path=/catalog-service/**
           filters:
             - RewritePath=/catalog-service/(?<segment>.*), /$\{segment}
+        - id: purchase-service
+          uri: lb://PURCHASE-SERVICE
+          predicates:
+            - Path=/purchase-service/**
+          filters:
+            - RewritePath=/purchase-service/(?<segment>.*), /$\{segment}
 
 management:
   endpoints:
