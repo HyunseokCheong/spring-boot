@@ -1,13 +1,13 @@
-package org.hyunseokcheong.orderservice;
+package org.hyunseokcheong.purchaseservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OrderServiceApplicationTests {
-
+class PurchaseServiceApplicationTests {
+	
 	@Test
 	void contextLoads() {
 	}
-
+	
 }

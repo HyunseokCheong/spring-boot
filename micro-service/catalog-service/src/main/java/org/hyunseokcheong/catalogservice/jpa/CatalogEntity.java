@@ -1,9 +1,5 @@
 package org.hyunseokcheong.catalogservice.jpa;
 
-import java.util.Date;
-
-import org.springframework.data.annotation.CreatedDate;
-
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -27,7 +23,4 @@ public class CatalogEntity {
 	
 	@Column(nullable = false)
 	private Integer unitPrice;
-	
-	@CreatedDate
-	private Date createdAt;
 }

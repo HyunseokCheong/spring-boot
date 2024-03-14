@@ -1,6 +1,4 @@
-package org.hyunseokcheong.orderservice.vo;
-
-import java.util.Date;
+package org.hyunseokcheong.purchaseservice.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -8,14 +6,13 @@ import lombok.Data;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ResponseOrder {
+public class ResponsePurchase {
 	
 	private String productId;
 	private Integer quantity;
 	private Integer unitPrice;
 	private Integer totalPrice;
-	private Date createdAt;
 	
-	private String orderId;
+	private String purchaseId;
 	private String userId;
 }

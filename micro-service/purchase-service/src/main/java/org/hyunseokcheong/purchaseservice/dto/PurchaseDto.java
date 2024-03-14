@@ -1,15 +1,15 @@
-package org.hyunseokcheong.orderservice.dto;
+package org.hyunseokcheong.purchaseservice.dto;
 
 import lombok.Data;
 
 @Data
-public class OrderDto {
+public class PurchaseDto {
 	
 	private String productId;
 	private Integer quantity;
 	private Integer unitPrice;
 	private Integer totalPrice;
 	
-	private String orderId;
+	private String purchaseId;
 	private String userId;
 }

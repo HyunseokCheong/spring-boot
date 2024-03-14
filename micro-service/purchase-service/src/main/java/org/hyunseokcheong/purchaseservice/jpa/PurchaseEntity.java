@@ -1,16 +1,12 @@
-package org.hyunseokcheong.orderservice.jpa;
-
-import java.util.Date;
-
-import org.springframework.data.annotation.CreatedDate;
+package org.hyunseokcheong.purchaseservice.jpa;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "order")
-public class OrderEntity {
+@Table(name = "purchase")
+public class PurchaseEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +16,7 @@ public class OrderEntity {
 	private String userId;
 	
 	@Column(nullable = false, unique = true)
-	private String orderId;
+	private String purchaseId;
 	
 	@Column(nullable = false, length = 120)
 	private String productId;
@@ -33,7 +29,4 @@ public class OrderEntity {
 	
 	@Column(nullable = false)
 	private Integer totalPrice;
-	
-	@CreatedDate
-	private Date createdAt;
 }
